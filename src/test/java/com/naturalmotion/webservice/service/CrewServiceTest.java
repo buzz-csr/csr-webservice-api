@@ -15,11 +15,14 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 import org.assertj.core.api.Assertions;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,10 +33,11 @@ import com.naturalmotion.webservice.service.json.Leaderbord;
 import com.naturalmotion.webservice.service.json.Login;
 import com.naturalmotion.webservice.service.json.Members;
 import com.naturalmotion.webservice.service.json.Wildcards;
-import com.naturalmotion.webservice.service.json.profile.Extra;
+import com.naturalmotion.webservice.service.json.profile.ExtraBuilder;
 import com.naturalmotion.webservice.service.json.profile.NonSecureBlob;
 import com.naturalmotion.webservice.service.json.profile.SecureBlob;
 import com.naturalmotion.webservice.service.json.profile.Transaction;
+import com.naturalmotion.webservice.service.json.profile.TransactionBuilder;
 import com.naturalmotion.webservice.service.json.profile.ZipProfile;
 
 import csr.Checksum;
@@ -79,6 +83,7 @@ public class CrewServiceTest {
 	}
 
 	@Test
+	@Ignore
 	public void testProfileUpdateOriginal() throws Exception {
 		ZipProfile profile = service.profile(AUTH, AGENT, PID_VALIDATION, PLAYER);
 
@@ -91,7 +96,7 @@ public class CrewServiceTest {
 	}
 
 	@Test
-	public void testProfileUpdateTransactions() throws Exception {
+	public void testProfileUpdateTransactionsForSd() throws Exception {
 		ZipProfile profile = service.profile(AUTH, AGENT, PID_VALIDATION, PLAYER);
 
 		ProfileBodyParam param = updateNsb(profile, -10000);
@@ -105,18 +110,37 @@ public class CrewServiceTest {
 		param.setSecureHashAlt(profile.getSecureHash());
 
 		List<Transaction> transactions = new ArrayList<>();
-		Transaction transaction = new Transaction();
-		transaction.setAction("TrackedParameterChanged");
-		transaction.setIncrease(1);
-		transaction.setTimestamp(System.currentTimeMillis());
-		transaction.setReason("Session");
-		Extra extra = new Extra();
-		extra.setUpdateBs(true);
-		transaction.setExtra(extra);
-		transactions.add(transaction);
+		long time = System.currentTimeMillis();
+
+		transactions.add(new TransactionBuilder().action("TrackedParameterChanged").increase(1)
+				.reason("ShowdownRaceComplete").timestamp(time).extra(new ExtraBuilder().updateBs(true)).build());
+		transactions.add(new TransactionBuilder().action("TrackedParameterChanged").increase(1)
+				.reason("ShowdownRaceWon").timestamp(time).extra(new ExtraBuilder().updateBs(true)).build());
+		transactions.add(new TransactionBuilder().action("CashEarned").increase(5000).boost(250)
+				.reason("RaceRewardWithBonus").timestamp(time).build());
+		transactions.add(new TransactionBuilder().action("CashEarned").increase(210).reason("RaceReward")
+				.timestamp(time).build());
+		transactions.add(new TransactionBuilder().action("RacesInCrewEarned").increase(1).reason("RacedWhileInACrew")
+				.timestamp(time).build());
+		transactions.add(new TransactionBuilder().action("FreshRPEarned").increase(75).timestamp(time)
+				.crewUid("18516329").build());
+		transactions.add(new TransactionBuilder().action("RPEarned").increase(741).boost(223).reason("ShowdownRaceWin")
+				.timestamp(time).extra(new ExtraBuilder().smpOpponentId("76834141820")).build());
+		transactions.add(new TransactionBuilder().action("EventAction").timestamp(time).actionResult(10634448)
+				.eventid("300044749").seriesId("SMP_SHOWDOWN_137_W2")
+				.extra(new ExtraBuilder().garageIndex(385).carUid(1367)
+						.userInputs(0, 236, 238, 460, 708, 932, 1220, 1712, 7233.951171875, 8, -0.117)
+						.ladderEventId(300044749).opponentId("76834141820").raceId("1623070939133367")
+						.opponentActionResult(17174998)
+						.raceSignature("f47363cb46917028884e0c3db4e7162754e1236f0b27f9196b51007fb78f5afc")
+						.raceTimestamp("1623070939").racestate(false)
+						.winnerCarId("Porsche_911Targa4SRewardRecycled_2021").loserCarId("Porsche_CaymanGT4_2016")
+						.leaguesEnabled(true).opponentLeaguesEnabled(false).clientPhysicsVersion(80))
+				.build());
+
 		param.setTransactions(transactions);
 
-		System.out.println(new ObjectMapper().writeValueAsString(param.getSecureBlob()));
+		System.out.println(new ObjectMapper().writeValueAsString(param.getTransactions()));
 
 		GenericResponse res = service.updateTransactions(AUTH, AGENT, PID_VALIDATION, PLAYER, TYPE, TYPE, param);
 		Assertions.assertThat(res.getErrorCode()).isEqualTo(0);
@@ -124,11 +148,12 @@ public class CrewServiceTest {
 
 	private SecureBlob updateScb(ZipProfile profile, int goldDelta) {
 		SecureBlob secureBlob = profile.getSecureBlob();
-		secureBlob.setGoldSpent(secureBlob.getGoldSpent() - goldDelta);
+//		secureBlob.setGoldSpent(secureBlob.getGoldSpent() - goldDelta);
 		return secureBlob;
 	}
 
 	@Test
+	@Ignore
 	public void testProfileUpdate() throws Exception {
 		ZipProfile profile = service.profile(AUTH, AGENT, PID_VALIDATION, PLAYER);
 
@@ -162,10 +187,31 @@ public class CrewServiceTest {
 		JsonReader createReader = Json.createReader(sReader);
 		JsonObject jobj = createReader.readObject();
 
+		JsonArray sdList = jobj.getJsonArray("shwdnrecs");
+		JsonArrayBuilder newSdList = Json.createArrayBuilder();
+
+		for (int i = 0; i < sdList.size(); i++) {
+			JsonObject sd = sdList.getJsonObject(i);
+			String sdName = sd.getString("suid");
+			if (sdName.equals("SMP_SHOWDOWN_137_W2")) {
+				JsonObjectBuilder newSd = Json.createObjectBuilder(sd);
+				newSd.add("htrc", sd.getInt("htrc") + 25);
+				newSd.add("ctrc", sd.getInt("ctrc") + 25);
+				newSd.add("ptrc", sd.getInt("ptrc") + 25);
+				newSd.add("nrw", sd.getInt("nrw") + 1);
+				System.out.println(newSd.build().toString());
+				newSdList.add(newSd);
+			} else {
+				newSdList.add(sd);
+			}
+		}
+
 		// Update data
 		JsonObjectBuilder builder = Json.createObjectBuilder(jobj);
-		int newGoldSpent = jobj.getInt("gosp") - goldDelta;
-		builder.add("gosp", newGoldSpent);
+		builder.add("shwdnrecs", newSdList);
+
+//		int newGoldSpent = jobj.getInt("gosp") - goldDelta;
+//		builder.add("gosp", newGoldSpent);
 
 		// Comput hmac
 		String newContent = builder.build().toString();
