@@ -96,6 +96,7 @@ public class CrewServiceTest {
 	}
 
 	@Test
+	@Ignore
 	public void testProfileUpdateTransactionsForSd() throws Exception {
 		ZipProfile profile = service.profile(AUTH, AGENT, PID_VALIDATION, PLAYER);
 
