@@ -33,6 +33,7 @@ import com.naturalmotion.webservice.service.json.Leaderbord;
 import com.naturalmotion.webservice.service.json.Login;
 import com.naturalmotion.webservice.service.json.Members;
 import com.naturalmotion.webservice.service.json.Wildcards;
+import com.naturalmotion.webservice.service.json.profile.Extra;
 import com.naturalmotion.webservice.service.json.profile.ExtraBuilder;
 import com.naturalmotion.webservice.service.json.profile.NonSecureBlob;
 import com.naturalmotion.webservice.service.json.profile.SecureBlob;
@@ -46,9 +47,9 @@ public class CrewServiceTest {
 
 	private static final String TYPE = "application/json";
 	private static final String PLAYER = "73336037157";
-	private static final String PID_VALIDATION = "07c729cbe9d6bcb42d23ab227731b67c80e61145";
+	private static final String PID_VALIDATION = "ef71d524d702b75fbc2375483cfffeb682ab5a62";
 	private static final String AGENT = "app=customstreetracer2; ver=3.0.2; dev=iPad7,3; os=iOS; osver=14.2; res=1920x1440";
-	private static final String AUTH = "token MWNjN2M0MDBiMTI4NjExZTA5NmUxNjNiYTNlODBmZmQ0MDY0MzJmMGY3NjM0YWUyZThkZTNiNTc0YTBlODg1OHxubXw4MzAzMDY4NzY5Nnw1MDAyOTQ0fDE2MjUyMjYwOTI=";
+	private static final String AUTH = "token N2ExNTkyODU1ODE4ZGI3MDhmYzA5ZjJkMjhjZjE1ODVmYTk0MDFiM2U4MDQ5Y2Y2MjhiOWYyZjY3ODhkNjk5NnxubXw4MzQwODk3NzM2OXw1MDAyOTQ0fDE2Mjg0NDYxOTg=";
 	private CrewService service = new CrewService();
 
 	@Test
@@ -84,25 +85,12 @@ public class CrewServiceTest {
 
 	@Test
 	@Ignore
-	public void testProfileUpdateOriginal() throws Exception {
-		ZipProfile profile = service.profile(AUTH, AGENT, PID_VALIDATION, PLAYER);
-
-		ProfileBodyParam param = new ProfileBodyParam();
-		param.setNonSecureHash(profile.getNonSecureHash());
-		param.setNonSecureHashAlt(profile.getNonSecureHash());
-		param.setNonsecureBlob(profile.getNonsecureBlob());
-		GenericResponse res = service.update(AUTH, AGENT, PID_VALIDATION, PLAYER, TYPE, param);
-		Assertions.assertThat(res.getErrorCode()).isEqualTo(0);
-	}
-
-	@Test
-	@Ignore
 	public void testProfileUpdateTransactionsForSd() throws Exception {
 		ZipProfile profile = service.profile(AUTH, AGENT, PID_VALIDATION, PLAYER);
 
-		ProfileBodyParam param = updateNsb(profile, -10000);
+		ProfileBodyParam param = updateNsb(profile, -10000, true);
 
-		param.setAppVersion("3.1.0");
+		param.setAppVersion("3.2.0");
 
 		SecureBlob secureBlob = updateScb(profile, -10000);
 
@@ -126,22 +114,51 @@ public class CrewServiceTest {
 		transactions.add(new TransactionBuilder().action("FreshRPEarned").increase(75).timestamp(time)
 				.crewUid("18516329").build());
 		transactions.add(new TransactionBuilder().action("RPEarned").increase(741).boost(223).reason("ShowdownRaceWin")
-				.timestamp(time).extra(new ExtraBuilder().smpOpponentId("76834141820")).build());
-		transactions.add(new TransactionBuilder().action("EventAction").timestamp(time).actionResult(10634448)
-				.eventid("300044749").seriesId("SMP_SHOWDOWN_137_W2")
-				.extra(new ExtraBuilder().garageIndex(385).carUid(1367)
+				.timestamp(time).extra(new ExtraBuilder().smpOpponentId("81756608178")).build());
+		transactions.add(new TransactionBuilder().action("EventAction").timestamp(time).actionResult(8293699)
+				.eventid("300046713").seriesId("SMP_SHOWDOWN_140_W2")
+				.extra(new ExtraBuilder().garageIndex(391).carUid(1382)
 						.userInputs(0, 236, 238, 460, 708, 932, 1220, 1712, 7233.951171875, 8, -0.117)
-						.ladderEventId(300044749).opponentId("76834141820").raceId("1623070939133367")
-						.opponentActionResult(17174998)
-						.raceSignature("f47363cb46917028884e0c3db4e7162754e1236f0b27f9196b51007fb78f5afc")
-						.raceTimestamp("1623070939").racestate(false)
-						.winnerCarId("Porsche_911Targa4SRewardRecycled_2021").loserCarId("Porsche_CaymanGT4_2016")
-						.leaguesEnabled(true).opponentLeaguesEnabled(false).clientPhysicsVersion(80))
+						.ladderEventId(300046713).opponentId("81756608178").raceId("1626728482011323")
+						.opponentActionResult(11481886)
+						.raceSignature("cb15dd7d884139c3db1981e7630fbd268b52dcc6ba72ba89079432d4b0bc2c59")
+						.raceTimestamp("1626725227").racestate(false).winnerCarId("Ferrari_RomaRewardRecycled_2020")
+						.loserCarId("Ford_GT_2005").leaguesEnabled(true).opponentLeaguesEnabled(true)
+						.clientPhysicsVersion(81))
 				.build());
 
 		param.setTransactions(transactions);
 
-		System.out.println(new ObjectMapper().writeValueAsString(param.getTransactions()));
+		GenericResponse res = service.updateTransactions(AUTH, AGENT, PID_VALIDATION, PLAYER, TYPE, TYPE, param);
+		Assertions.assertThat(res.getErrorCode()).isEqualTo(0);
+	}
+
+	@Test
+	@Ignore
+	public void testProfileUpdateTransactionsSimple() throws Exception {
+		ZipProfile profile = service.profile(AUTH, AGENT, PID_VALIDATION, PLAYER);
+
+		ProfileBodyParam param = updateNsb(profile, -10000, false);
+
+		param.setAppVersion("3.2.0");
+
+		SecureBlob secureBlob = updateScb(profile, -10000);
+
+		param.setSecureBlob(secureBlob);
+		param.setSecureHash(getHash(secureBlob));
+		param.setSecureHashAlt(profile.getSecureHash());
+
+		List<Transaction> transactions = new ArrayList<>();
+		Transaction transaction = new Transaction();
+		transaction.setAction("TrackedParameterChanged");
+		transaction.setIncrease(1);
+		transaction.setTimestamp(System.currentTimeMillis());
+		transaction.setReason("Session");
+		Extra extra = new Extra();
+		extra.setUpdateBs(true);
+		transaction.setExtra(extra);
+		transactions.add(transaction);
+		param.setTransactions(transactions);
 
 		GenericResponse res = service.updateTransactions(AUTH, AGENT, PID_VALIDATION, PLAYER, TYPE, TYPE, param);
 		Assertions.assertThat(res.getErrorCode()).isEqualTo(0);
@@ -158,14 +175,14 @@ public class CrewServiceTest {
 	public void testProfileUpdate() throws Exception {
 		ZipProfile profile = service.profile(AUTH, AGENT, PID_VALIDATION, PLAYER);
 
-		ProfileBodyParam param = updateNsb(profile, 10000);
-		param.setAppVersion("3.1.0");
+		ProfileBodyParam param = updateNsb(profile, 10000, false);
+		param.setAppVersion("3.2.0");
 
 		GenericResponse res = service.update(AUTH, AGENT, PID_VALIDATION, PLAYER, TYPE, param);
 		Assertions.assertThat(res.getErrorCode()).isEqualTo(0);
 	}
 
-	private ProfileBodyParam updateNsb(ZipProfile profile, int goldDelta)
+	private ProfileBodyParam updateNsb(ZipProfile profile, int goldDelta, boolean updateSd)
 			throws IOException, UnsupportedEncodingException, JsonProcessingException {
 		// Decode Base 64
 		byte[] decodedBytes = Base64.getDecoder().decode(profile.getNonsecureBlob().getBlob());
@@ -187,29 +204,43 @@ public class CrewServiceTest {
 		StringReader sReader = new StringReader(nsb.toString());
 		JsonReader createReader = Json.createReader(sReader);
 		JsonObject jobj = createReader.readObject();
-
-		JsonArray sdList = jobj.getJsonArray("shwdnrecs");
-		JsonArrayBuilder newSdList = Json.createArrayBuilder();
-
-		for (int i = 0; i < sdList.size(); i++) {
-			JsonObject sd = sdList.getJsonObject(i);
-			String sdName = sd.getString("suid");
-			if (sdName.equals("SMP_SHOWDOWN_137_W2")) {
-				JsonObjectBuilder newSd = Json.createObjectBuilder(sd);
-				newSd.add("htrc", sd.getInt("htrc") + 25);
-				newSd.add("ctrc", sd.getInt("ctrc") + 25);
-				newSd.add("ptrc", sd.getInt("ptrc") + 25);
-				newSd.add("nrw", sd.getInt("nrw") + 1);
-				System.out.println(newSd.build().toString());
-				newSdList.add(newSd);
-			} else {
-				newSdList.add(sd);
-			}
-		}
-
-		// Update data
 		JsonObjectBuilder builder = Json.createObjectBuilder(jobj);
-		builder.add("shwdnrecs", newSdList);
+
+		if (updateSd) {
+
+			JsonArray sdList = jobj.getJsonArray("shwdnrecs");
+			JsonArrayBuilder newSdList = Json.createArrayBuilder();
+
+			for (int i = 0; i < sdList.size(); i++) {
+				JsonObject sd = sdList.getJsonObject(i);
+				String sdName = sd.getString("suid");
+				if (sdName.equals("SMP_SHOWDOWN_140_W2")) {
+					JsonObjectBuilder newSd = Json.createObjectBuilder(sd);
+					newSd.add("htrc", sd.getInt("ctrc") + 30);
+					newSd.add("ctrc", sd.getInt("ctrc") + 30);
+					newSd.add("ptrc", sd.getInt("ctrc"));
+					newSd.add("nrw", sd.getInt("nrw") + 1);
+					newSd.add("ppbt", sd.getInt("nrw") + sd.getInt("nrl") + 1);
+//					newSd.add("htrc", 1380);
+//					newSd.add("ctrc", 1380);
+//					newSd.add("ptrc", 1363);
+//					newSd.add("mpbt", 1400);
+//					newSd.add("nrw", 10);
+//					newSd.add("ppbt", 10);
+//					newSd.add("sbotr", 5);
+//					newSd.add("tbotr", 5);
+//					newSd.add("lsr", 0);
+					newSdList.add(newSd);
+				} else {
+					newSdList.add(sd);
+				}
+			}
+
+			// Update data
+			builder.add("shwdnrecs", newSdList);
+
+		}
+		builder.add("showdnsrc", jobj.getInt("showdnsrc") + 1);
 
 //		int newGoldSpent = jobj.getInt("gosp") - goldDelta;
 //		builder.add("gosp", newGoldSpent);

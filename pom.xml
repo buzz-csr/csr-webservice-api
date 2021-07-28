@@ -4,7 +4,7 @@
 
   <groupId>com.naturalmotion</groupId>
   <artifactId>csr-webservice-api</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>jar</packaging>
 
   <name>csr-api</name>
@@ -111,6 +111,12 @@
     	<groupId>com.csr</groupId>
     	<artifactId>csr</artifactId>
     	<version>1.1</version>
+    	<exclusions>
+            <exclusion>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>    	   
+    	</exclusions>
     </dependency>
   </dependencies>
 

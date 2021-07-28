@@ -3,6 +3,7 @@ package com.naturalmotion.webservice.api;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.naturalmotion.webservice.service.auth.Authorization;
@@ -14,6 +15,7 @@ public class CrewResourcesTest {
 	private CrewResources resources = new CrewResources();
 
 	@Test
+	@Ignore
 	public void testGetProfile() throws Exception {
 		Authorization auth = new Authorization();
 		auth.setAuthToken(
@@ -27,6 +29,7 @@ public class CrewResourcesTest {
 	}
 
 	@Test
+	@Ignore
 	public void testGetEventCrewScore() throws Exception {
 		Authorization auth = new Authorization();
 		auth.setAuthToken(
@@ -42,6 +45,7 @@ public class CrewResourcesTest {
 	}
 
 	@Test
+	@Ignore
 	public void testGetConversations() throws Exception {
 		Authorization auth = new Authorization();
 		auth.setAuthToken(

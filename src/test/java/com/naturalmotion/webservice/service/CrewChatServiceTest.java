@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.assertj.core.api.Assertions;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.naturalmotion.webservice.service.json.tchat.Conversation;
@@ -16,6 +17,7 @@ public class CrewChatServiceTest {
 	private CrewChatService service = new CrewChatService();
 
 	@Test
+	@Ignore
 	public void testConversations() throws Exception {
 		ChatBodyParams bodyParams = new ChatBodyParams();
 		bodyParams.setIds(new ArrayList<>());

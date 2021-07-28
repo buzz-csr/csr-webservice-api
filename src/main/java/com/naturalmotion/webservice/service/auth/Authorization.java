@@ -42,4 +42,10 @@ public class Authorization {
 		return userAgent;
 	}
 
+	@Override
+	public String toString() {
+		return "Authorization [authToken=" + authToken + ", playerId=" + playerId + ", pidValidation=" + pidValidation
+				+ "]";
+	}
+
 }
