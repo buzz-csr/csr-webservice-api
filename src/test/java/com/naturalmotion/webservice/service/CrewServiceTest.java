@@ -47,9 +47,9 @@ public class CrewServiceTest {
 
 	private static final String TYPE = "application/json";
 	private static final String PLAYER = "73336037157";
-	private static final String PID_VALIDATION = "ef71d524d702b75fbc2375483cfffeb682ab5a62";
-	private static final String AGENT = "app=customstreetracer2; ver=3.0.2; dev=iPad7,3; os=iOS; osver=14.2; res=1920x1440";
-	private static final String AUTH = "token N2ExNTkyODU1ODE4ZGI3MDhmYzA5ZjJkMjhjZjE1ODVmYTk0MDFiM2U4MDQ5Y2Y2MjhiOWYyZjY3ODhkNjk5NnxubXw4MzQwODk3NzM2OXw1MDAyOTQ0fDE2Mjg0NDYxOTg=";
+	private static final String PID_VALIDATION = "3eee1afc3d8087498a0af3ae3509a720195d4f38";
+	private static final String AGENT = "app=customstreetracer2; ver=3.3.0; dev=iPad7,3; os=iOS; osver=14.2; res=1920x1440";
+	private static final String AUTH = "token YzVlNGI3ZmYyNWNjNjNiODcwM2I3MjMwODZhMmMwNjMyODU5ZmIxYzZlNmM0MjFlODZkNWUxYWVlNjMxNzQ4MXxubXw4MzQwODk3NzM2OXw1MDAyOTQ0fDE2MzE4MDUyNzc=";
 	private CrewService service = new CrewService();
 
 	@Test
@@ -61,7 +61,7 @@ public class CrewServiceTest {
 	@Test
 	public void testLeaders() throws Exception {
 		CrewBodyParam param = new CrewBodyParam();
-		param.setApp_ver("3.0.2");
+		param.setApp_ver("3.3.0");
 		param.setBefore(100);
 		param.setAfter(500);
 		param.setOffset(0);
@@ -90,7 +90,7 @@ public class CrewServiceTest {
 
 		ProfileBodyParam param = updateNsb(profile, -10000, true);
 
-		param.setAppVersion("3.2.0");
+		param.setAppVersion("3.3.0");
 
 		SecureBlob secureBlob = updateScb(profile, -10000);
 
@@ -140,7 +140,7 @@ public class CrewServiceTest {
 
 		ProfileBodyParam param = updateNsb(profile, -10000, false);
 
-		param.setAppVersion("3.2.0");
+		param.setAppVersion("3.3.0");
 
 		SecureBlob secureBlob = updateScb(profile, -10000);
 
@@ -176,7 +176,7 @@ public class CrewServiceTest {
 		ZipProfile profile = service.profile(AUTH, AGENT, PID_VALIDATION, PLAYER);
 
 		ProfileBodyParam param = updateNsb(profile, 10000, false);
-		param.setAppVersion("3.2.0");
+		param.setAppVersion("3.3.0");
 
 		GenericResponse res = service.update(AUTH, AGENT, PID_VALIDATION, PLAYER, TYPE, param);
 		Assertions.assertThat(res.getErrorCode()).isEqualTo(0);

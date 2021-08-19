@@ -19,9 +19,9 @@ public class CrewResourcesTest {
 	public void testGetProfile() throws Exception {
 		Authorization auth = new Authorization();
 		auth.setAuthToken(
-				"token MWNjN2M0MDBiMTI4NjExZTA5NmUxNjNiYTNlODBmZmQ0MDY0MzJmMGY3NjM0YWUyZThkZTNiNTc0YTBlODg1OHxubXw4MzAzMDY4NzY5Nnw1MDAyOTQ0fDE2MjUyMjYwOTI=");
+				"token YzVlNGI3ZmYyNWNjNjNiODcwM2I3MjMwODZhMmMwNjMyODU5ZmIxYzZlNmM0MjFlODZkNWUxYWVlNjMxNzQ4MXxubXw4MzQwODk3NzM2OXw1MDAyOTQ0fDE2MzE4MDUyNzc=");
 		auth.setUserAgent("app=customstreetracer2; ver=3.0.2; dev=iPad7,3; os=iOS; osver=14.2; res=1920x1440");
-		auth.setPidValidation("07c729cbe9d6bcb42d23ab227731b67c80e61145");
+		auth.setPidValidation("3eee1afc3d8087498a0af3ae3509a720195d4f38");
 		auth.setPlayerId("73336037157");
 		Profile profile = resources.getProfile(auth);
 		Assertions.assertThat(profile).isNotNull();
@@ -33,9 +33,9 @@ public class CrewResourcesTest {
 	public void testGetEventCrewScore() throws Exception {
 		Authorization auth = new Authorization();
 		auth.setAuthToken(
-				"token MWNjN2M0MDBiMTI4NjExZTA5NmUxNjNiYTNlODBmZmQ0MDY0MzJmMGY3NjM0YWUyZThkZTNiNTc0YTBlODg1OHxubXw4MzAzMDY4NzY5Nnw1MDAyOTQ0fDE2MjUyMjYwOTI=");
+				"token YzVlNGI3ZmYyNWNjNjNiODcwM2I3MjMwODZhMmMwNjMyODU5ZmIxYzZlNmM0MjFlODZkNWUxYWVlNjMxNzQ4MXxubXw4MzQwODk3NzM2OXw1MDAyOTQ0fDE2MzE4MDUyNzc=");
 		auth.setUserAgent("app=customstreetracer2; ver=3.0.2; dev=iPad7,3; os=iOS; osver=14.2; res=1920x1440");
-		auth.setPidValidation("07c729cbe9d6bcb42d23ab227731b67c80e61145");
+		auth.setPidValidation("3eee1afc3d8087498a0af3ae3509a720195d4f38");
 		auth.setPlayerId("73336037157");
 
 		Profile profile = resources.getProfile(auth);
@@ -49,7 +49,7 @@ public class CrewResourcesTest {
 	public void testGetConversations() throws Exception {
 		Authorization auth = new Authorization();
 		auth.setAuthToken(
-				"token MWNjN2M0MDBiMTI4NjExZTA5NmUxNjNiYTNlODBmZmQ0MDY0MzJmMGY3NjM0YWUyZThkZTNiNTc0YTBlODg1OHxubXw4MzAzMDY4NzY5Nnw1MDAyOTQ0fDE2MjUyMjYwOTI=");
+				"token YzVlNGI3ZmYyNWNjNjNiODcwM2I3MjMwODZhMmMwNjMyODU5ZmIxYzZlNmM0MjFlODZkNWUxYWVlNjMxNzQ4MXxubXw4MzQwODk3NzM2OXw1MDAyOTQ0fDE2MzE4MDUyNzc=");
 		auth.setUserAgent("app=customstreetracer2; ver=3.0.2; dev=iPad7,3; os=iOS; osver=14.2; res=1920x1440");
 		auth.setPlayerId("73336037157");
 		List<List<Message>> conversations = resources.getConversations(auth, "25960299");

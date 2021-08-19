@@ -35,7 +35,7 @@ public class CrewChatServiceTest {
 		filters.setRange(range);
 		bodyParams.setFilters(filters);
 		Map<String, Conversation> conversations = service.conversations(
-				"token MWNjN2M0MDBiMTI4NjExZTA5NmUxNjNiYTNlODBmZmQ0MDY0MzJmMGY3NjM0YWUyZThkZTNiNTc0YTBlODg1OHxubXw4MzAzMDY4NzY5Nnw1MDAyOTQ0fDE2MjUyMjYwOTI=",
+				"token YzVlNGI3ZmYyNWNjNjNiODcwM2I3MjMwODZhMmMwNjMyODU5ZmIxYzZlNmM0MjFlODZkNWUxYWVlNjMxNzQ4MXxubXw4MzQwODk3NzM2OXw1MDAyOTQ0fDE2MzE4MDUyNzc=",
 				"app=customstreetracer2; ver=3.0.2; dev=iPad7,3; os=iOS; osver=14.2; res=1920x1440", "application/json",
 				"application/json", bodyParams);
 		Assertions.assertThat(conversations).isNotNull();
