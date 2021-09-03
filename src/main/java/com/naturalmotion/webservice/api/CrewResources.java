@@ -89,6 +89,27 @@ public class CrewResources {
 		return result;
 	}
 
+	public com.naturalmotion.webservice.api.Crew getCrew(Authorization auth) {
+		CrewBodyParam param = new CrewBodyParam();
+		param.setApp_ver("3.0.2");
+		param.setBefore(0);
+		param.setAfter(0);
+		param.setTop(0);
+		param.setOffset(0);
+		Leaderbord crews = crewService.leaders(auth.getAuthToken(), auth.getUserAgent(), auth.getPidValidation(),
+				auth.getPlayerId(), "application/json", param);
+		List<ScoreCrew> list = crews.getScores();
+
+		ScoreCrew crew = list.get(0);
+		String name = crew.getName();
+		com.naturalmotion.webservice.api.Crew actual = new com.naturalmotion.webservice.api.Crew();
+		actual.setName(htmlConverter.convert(name));
+		actual.setRank(crew.getRank());
+		actual.setPoints(Integer.parseInt(crew.getScore()));
+		actual.setId(crew.getCrew_id());
+		return actual;
+	}
+
 	public List<com.naturalmotion.webservice.api.Crew> getLeaderCrews(Authorization auth, String crew2) {
 		List<com.naturalmotion.webservice.api.Crew> result = new ArrayList<com.naturalmotion.webservice.api.Crew>();
 		CrewBodyParam param = new CrewBodyParam();
