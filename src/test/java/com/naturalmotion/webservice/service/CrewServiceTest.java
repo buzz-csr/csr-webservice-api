@@ -47,18 +47,20 @@ public class CrewServiceTest {
 
 	private static final String TYPE = "application/json";
 	private static final String PLAYER = "73336037157";
-	private static final String PID_VALIDATION = "3eee1afc3d8087498a0af3ae3509a720195d4f38";
+	private static final String PID_VALIDATION = "cef3a4005baa2563aab02c55179ede883f43740d";
 	private static final String AGENT = "app=customstreetracer2; ver=3.3.0; dev=iPad7,3; os=iOS; osver=14.2; res=1920x1440";
-	private static final String AUTH = "token YzVlNGI3ZmYyNWNjNjNiODcwM2I3MjMwODZhMmMwNjMyODU5ZmIxYzZlNmM0MjFlODZkNWUxYWVlNjMxNzQ4MXxubXw4MzQwODk3NzM2OXw1MDAyOTQ0fDE2MzE4MDUyNzc=";
+	private static final String AUTH = "token NjdhOWJmMzQ2ZTJjYzZkZjMyOTA0MmEyNmJmMjk4ZjYwOTg2MWRlMmMzNWQ1MjljMGE3YWU0ZThhYjhiMTM4NnxubXw4Mzc5NDU5NDQ5OXw1MDAyOTQ0fDE2MzQ0MTI2NTM=";
 	private CrewService service = new CrewService();
 
 	@Test
+	@Ignore
 	public void testMembers() throws Exception {
 		Members members = service.members(AUTH, AGENT, PID_VALIDATION, PLAYER);
 		Assertions.assertThat(members.getScores()).isNotNull();
 	}
 
 	@Test
+	@Ignore
 	public void testLeaders() throws Exception {
 		CrewBodyParam param = new CrewBodyParam();
 		param.setApp_ver("3.3.0");
@@ -70,12 +72,14 @@ public class CrewServiceTest {
 	}
 
 	@Test
+	@Ignore
 	public void testWildcards() throws Exception {
 		Wildcards wildcards = service.wildcards(AUTH, AGENT, PID_VALIDATION, PLAYER, TYPE);
 		Assertions.assertThat(wildcards.getCards()).isNotNull();
 	}
 
 	@Test
+	@Ignore
 	public void testProfile() throws Exception {
 		ZipProfile profile = service.profile(AUTH, AGENT, PID_VALIDATION, PLAYER);
 		Assertions.assertThat(profile).isNotNull();
@@ -278,6 +282,7 @@ public class CrewServiceTest {
 	}
 
 	@Test
+	@Ignore
 	public void testLogin() throws Exception {
 		Login login = service.login(AUTH, AGENT, PID_VALIDATION, PLAYER);
 		Assertions.assertThat(login.getSecureHash()).isNotEmpty();
