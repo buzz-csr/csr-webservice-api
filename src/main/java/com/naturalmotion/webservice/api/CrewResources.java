@@ -69,7 +69,7 @@ public class CrewResources {
 	public List<Member> getMembers(Authorization auth) {
 		List<Member> result = new ArrayList<Member>();
 		Members members = crewService.members(auth.getAuthToken(), auth.getUserAgent(), auth.getPidValidation(),
-				auth.getPlayerId());
+		        auth.getPlayerId());
 		List<ScoreMember> list = members.getScores();
 		list.sort(new MemberComparator());
 
@@ -97,7 +97,7 @@ public class CrewResources {
 		param.setTop(0);
 		param.setOffset(0);
 		Leaderbord crews = crewService.leaders(auth.getAuthToken(), auth.getUserAgent(), auth.getPidValidation(),
-				auth.getPlayerId(), "application/json", param);
+		        auth.getPlayerId(), "application/json", param);
 		List<ScoreCrew> list = crews.getScores();
 
 		ScoreCrew crew = list.get(0);
@@ -119,7 +119,7 @@ public class CrewResources {
 		param.setTop(500);
 		param.setOffset(0);
 		Leaderbord crews = crewService.leaders(auth.getAuthToken(), auth.getUserAgent(), auth.getPidValidation(),
-				auth.getPlayerId(), "application/json", param);
+		        auth.getPlayerId(), "application/json", param);
 		List<ScoreCrew> list = crews.getScores();
 
 		for (int i = 0; i < list.size(); i++) {
@@ -137,13 +137,13 @@ public class CrewResources {
 
 	public List<Card> getWildcards(Authorization auth) {
 		Wildcards wildcards = crewService.wildcards(auth.getAuthToken(), auth.getUserAgent(), auth.getPidValidation(),
-				auth.getPlayerId(), "application/json");
+		        auth.getPlayerId(), "application/json");
 		return wildcards.getCards();
 	}
 
 	public JsonObject getFullProfile(Authorization auth) throws IOException {
 		ZipProfile profile = crewService.profile(auth.getAuthToken(), auth.getUserAgent(), auth.getPidValidation(),
-				auth.getPlayerId());
+		        auth.getPlayerId());
 
 		byte[] decodedBytes = Base64.getDecoder().decode(profile.getNonsecureBlob().getBlob());
 
@@ -180,7 +180,7 @@ public class CrewResources {
 
 	public void updateProfile(Authorization auth, File nsbFile, File scb) throws IOException {
 		ZipProfile profile = crewService.profile(auth.getAuthToken(), auth.getUserAgent(), auth.getPidValidation(),
-				auth.getPlayerId());
+		        auth.getPlayerId());
 
 		String content = getContent(nsbFile);
 		String hmac = new Checksum().computeHmac(content);
@@ -225,7 +225,7 @@ public class CrewResources {
 		param.setTransactions(transactions);
 
 		crewService.updateTransactions(auth.getAuthToken(), auth.getUserAgent(), auth.getPidValidation(),
-				auth.getPlayerId(), "application/json", "application/json", param);
+		        auth.getPlayerId(), "application/json", "application/json", param);
 	}
 
 	private String getContent(File nsbFile) throws FileNotFoundException {
@@ -246,7 +246,7 @@ public class CrewResources {
 
 	public com.naturalmotion.webservice.api.Profile getProfile(Authorization auth) throws IOException {
 		ZipProfile profile = crewService.profile(auth.getAuthToken(), auth.getUserAgent(), auth.getPidValidation(),
-				auth.getPlayerId());
+		        auth.getPlayerId());
 
 		byte[] decodedBytes = Base64.getDecoder().decode(profile.getNonsecureBlob().getBlob());
 
@@ -280,7 +280,7 @@ public class CrewResources {
 		param.setTop(10);
 		param.setOffset(0);
 		ScoreEvent score = crewService.eventLeaderboard(auth.getAuthToken(), auth.getUserAgent(),
-				auth.getPidValidation(), auth.getPlayerId(), event, "application/json", param);
+		        auth.getPidValidation(), auth.getPlayerId(), event, "application/json", param);
 		List<Player> players = score.getPlayers();
 		players.stream().forEach(x -> x.setName(htmlConverter.convert(x.getName())));
 		return players;
@@ -298,7 +298,7 @@ public class CrewResources {
 	private Map<String, Conversation> getConversation(Authorization auth, String crewId, String conversationId) {
 		ChatBodyParams bodyParams = createChatParam(conversationId, crewId);
 		return crewChatService.conversations(auth.getAuthToken(), auth.getUserAgent(), "application/json",
-				auth.getPlayerId(), bodyParams);
+		        auth.getPlayerId(), bodyParams);
 	}
 
 	private void addConvToResult(Map<String, Conversation> conversations, List<List<Message>> result) {
@@ -309,6 +309,7 @@ public class CrewResources {
 			List<Message> messages = new ArrayList<Message>();
 			mapMessages.forEach((x, y) -> {
 				if (StringUtils.isNotBlank(y.getZid())) {
+					y.setId(x);
 					messages.add(y);
 				}
 			});

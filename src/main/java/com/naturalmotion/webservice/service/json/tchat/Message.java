@@ -10,6 +10,8 @@ import com.naturalmotion.webservice.service.MessageDeserializer;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Message {
 
+	private String id;
+
 	private String zid;
 
 	private String text;
@@ -48,6 +50,14 @@ public class Message {
 
 	public void setCreationTime(Date creationTime) {
 		this.creationTime = creationTime;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }
