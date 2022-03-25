@@ -25,54 +25,54 @@ public interface Crew {
 	@Path("/users/login")
 	@Produces
 	Login login(@HeaderParam("Authorization") String auth, @HeaderParam("User-Agent") String userAgent,
-			@HeaderParam("PIDValidationToken") String pidToken, @HeaderParam("PlayerID") String playerId);
+	        @HeaderParam("PIDValidationToken") String pidToken, @HeaderParam("PlayerID") String playerId);
 
 	@POST
 	@Path("/crews/viewMembers")
 	@Produces
 	Members members(@HeaderParam("Authorization") String auth, @HeaderParam("User-Agent") String userAgent,
-			@HeaderParam("PIDValidationToken") String pidToken, @HeaderParam("PlayerID") String playerId);
+	        @HeaderParam("PIDValidationToken") String pidToken, @HeaderParam("PlayerID") String playerId);
 
 	@POST
 	@Path("/leaderboard/crew-champs-v2/viewcrew")
 	@Produces
 	Leaderbord leaders(@HeaderParam("Authorization") String auth, @HeaderParam("User-Agent") String userAgent,
-			@HeaderParam("PIDValidationToken") String pidToken, @HeaderParam("PlayerID") String playerId,
-			@HeaderParam("Content-Type") String contentType, CrewBodyParam param);
+	        @HeaderParam("PIDValidationToken") String pidToken, @HeaderParam("PlayerID") String playerId,
+	        @HeaderParam("Content-Type") String contentType, CrewBodyParam param);
 
 	@POST
 	@Path("/wildcards/status")
 	@Produces
 	Wildcards wildcards(@HeaderParam("Authorization") String auth, @HeaderParam("User-Agent") String userAgent,
-			@HeaderParam("PIDValidationToken") String pidToken, @HeaderParam("PlayerID") String playerId,
-			@HeaderParam("Content-Type") String contentType);
+	        @HeaderParam("PIDValidationToken") String pidToken, @HeaderParam("PlayerID") String playerId,
+	        @HeaderParam("Content-Type") String contentType);
 
 	@POST
 	@Path("/users/fetchProfile")
 	@Produces
 	ZipProfile profile(@HeaderParam("Authorization") String auth, @HeaderParam("User-Agent") String userAgent,
-			@HeaderParam("PIDValidationToken") String pidToken, @HeaderParam("PlayerID") String playerId);
+	        @HeaderParam("PIDValidationToken") String pidToken, @HeaderParam("PlayerID") String playerId);
 
 	@POST
 	@Path("/users/updateProfileNonsecure")
 	@Produces
 	GenericResponse update(@HeaderParam("Authorization") String auth, @HeaderParam("User-Agent") String userAgent,
-			@HeaderParam("PIDValidationToken") String pidToken, @HeaderParam("PlayerID") String playerId,
-			@HeaderParam("Content-Type") String contentType, ProfileBodyParam param);
+	        @HeaderParam("PIDValidationToken") String pidToken, @HeaderParam("PlayerID") String playerId,
+	        @HeaderParam("Content-Type") String contentType, ProfileBodyParam param);
 
 	@POST
 	@Path("/users/updateProfileTransactions")
 	@Produces
 	GenericResponse updateTransactions(@HeaderParam("Authorization") String auth,
-			@HeaderParam("User-Agent") String userAgent, @HeaderParam("PIDValidationToken") String pidToken,
-			@HeaderParam("PlayerID") String playerId, @HeaderParam("Accept") String accept,
-			@HeaderParam("Content-Type") String contentType, ProfileBodyParam param);
+	        @HeaderParam("User-Agent") String userAgent, @HeaderParam("PIDValidationToken") String pidToken,
+	        @HeaderParam("PlayerID") String playerId, @HeaderParam("Accept") String accept,
+	        @HeaderParam("Content-Type") String contentType, ProfileBodyParam param);
 
 	@POST
 	@Path("/leaderboard/{event}/scores/crewmembers")
 	@Produces
 	ScoreEvent eventLeaderboard(@HeaderParam("Authorization") String auth, @HeaderParam("User-Agent") String userAgent,
-			@HeaderParam("PIDValidationToken") String pidToken, @HeaderParam("PlayerID") String playerId,
-			@PathParam("event") String event, @HeaderParam("Content-Type") String contentType, CrewBodyParam param);
+	        @HeaderParam("PIDValidationToken") String pidToken, @HeaderParam("PlayerID") String playerId,
+	        @PathParam("event") String event, @HeaderParam("Content-Type") String contentType, CrewBodyParam param);
 
 }

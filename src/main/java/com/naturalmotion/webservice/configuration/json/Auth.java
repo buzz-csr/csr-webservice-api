@@ -12,6 +12,8 @@ public class Auth {
 
 	private String creationDate;
 
+	private String name;
+
 	public String getAuth() {
 		return auth;
 	}
@@ -50,6 +52,14 @@ public class Auth {
 
 	public void setPlayerId(String playerId) {
 		this.playerId = playerId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
