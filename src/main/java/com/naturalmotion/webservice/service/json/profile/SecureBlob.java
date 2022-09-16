@@ -1,8 +1,10 @@
 package com.naturalmotion.webservice.service.json.profile;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SecureBlob {
 
 	@JsonProperty("CashEarned")
@@ -57,6 +59,8 @@ public class SecureBlob {
 	private JsonNode flexibleCurrenciesSpent;
 	@JsonProperty("CarsSecureData")
 	private JsonNode carsSecureData;
+	@JsonProperty("JokerPartsData")
+	private JsonNode jokerPartsData;
 
 	public int getCashEarned() {
 		return cashEarned;
@@ -264,6 +268,14 @@ public class SecureBlob {
 
 	public void setCarsSecureData(JsonNode carsSecureData) {
 		this.carsSecureData = carsSecureData;
+	}
+
+	public JsonNode getJokerPartsData() {
+		return jokerPartsData;
+	}
+
+	public void setJokerPartsData(JsonNode jokerPartsData) {
+		this.jokerPartsData = jokerPartsData;
 	}
 
 }

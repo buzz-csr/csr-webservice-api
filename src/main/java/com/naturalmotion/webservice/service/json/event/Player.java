@@ -1,5 +1,7 @@
 package com.naturalmotion.webservice.service.json.event;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,7 +10,7 @@ public class Player {
 
 	private String name;
 
-	private int score;
+	private BigDecimal score;
 
 	private int rank;
 
@@ -23,11 +25,11 @@ public class Player {
 		this.name = name;
 	}
 
-	public int getScore() {
+	public BigDecimal getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(BigDecimal score) {
 		this.score = score;
 	}
 
